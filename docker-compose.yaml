@@ -1,25 +1,17 @@
-version: '3.8'
-
 services:
   core_server:
     build:
       context: .
       dockerfile: CoreDockerfile
+    env_file: /home/naro/data_analyst_llm/data_analyst_llm/app/env/extra.env
+    environment:
+    - HOST_CONFIGS_DIR=/home/naro/data_analyst_llm/data_analyst_llm/app/configs
+    - HOST_ENV_DIR=/home/naro/data_analyst_llm/data_analyst_llm/app/env
     image: core-server
     ports:
-      - "8000:8000"
-    # Mount your local folders into the container:
-    #  - 'D:/Dev/dg_employee/app/configs' -> '/app/configs'
-    #  - 'D:/Dev/dg_employee/app/env' -> '/app/env'
-    # Also mount the Docker socket so the core server can spawn containers.
+    - 8000:8000
     volumes:
-      - D:/Dev/dg_employee/app/configs:/app/configs
-      - D:/Dev/dg_employee/app/env:/app/env
-      - /var/run/docker.sock:/var/run/docker.sock
-    env_file:
-      - .env
-    # Pass the real host paths to the container via environment variables
-    # so it knows where to find them on the HOST side when spawning dashboards.
-    environment:
-      - HOST_CONFIGS_DIR=D:/Dev/dg_employee/app/configs
-      - HOST_ENV_DIR=D:/Dev/dg_employee/app/env
+    - /home/naro/data_analyst_llm/data_analyst_llm/app/configs:/app/configs
+    - /home/naro/data_analyst_llm/data_analyst_llm/app/env:/app/env
+    - /var/run/docker.sock:/var/run/docker.sock
+version: '3.8'
